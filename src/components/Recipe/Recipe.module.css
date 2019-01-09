@@ -1,0 +1,36 @@
+.recipe {
+  border: 1px solid black;
+  margin: 1rem;
+}
+
+.title {
+  background-color: #333333;
+  padding: 0.3rem 0.6rem;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  color: white;
+}
+
+.titleName {
+  margin: 0 1rem;
+}
+
+.titleDay {
+  margin: 0 1rem;
+  font-style: italic;
+}
+
+.list {
+  background-color: white;
+  padding: 1rem 0.2rem;
+}
+
+.row {
+  padding: 0 0.3rem;
+}
+
+.item {
+  display: inline-block;
+  margin: 0 0.3rem;
+}

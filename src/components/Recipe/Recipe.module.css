@@ -13,7 +13,8 @@
 }
 
 .titleName {
-  margin: 0 1rem;
+  margin-right: 1rem;
+  margin-left: 3rem;
 }
 
 .titleDay {
@@ -33,4 +34,11 @@
 .item {
   display: inline-block;
   margin: 0 0.3rem;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
 }

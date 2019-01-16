@@ -6,7 +6,7 @@ const pluralMap = {
   avocado: 'avocados',
   lime: 'limes',
   pineapple: 'pineapples',
-  cucumber: 'cucumber',
+  cucumber: 'cucumbers',
   'red onion': 'red onions'
 };
 

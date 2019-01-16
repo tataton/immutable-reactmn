@@ -1,6 +1,8 @@
-export const getInitialShoppingList = () => {
+export const getShoppingList = () => {
+  let timestamp = new Date();
   return Promise.resolve({
     destination: 'Cub Foods',
+    timestamp: timestamp.toUTCString(),
     recipes: {
       Monday: {
         name: 'Pasta and Broccoli',

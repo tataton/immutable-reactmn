@@ -7,7 +7,6 @@ import debugRender from 'react-render-debugger';
 class App extends Component {
   initialState = {
     destination: '', // where I'll shop
-    timestamp: '', // retrieved from http; don't know how I'll use yet
     recipes: {
       Tuesday: {
         name: 'Tacos',

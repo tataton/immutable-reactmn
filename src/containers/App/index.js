@@ -4,10 +4,11 @@ import styles from './App.module.css';
 import Recipe from '../../components/Recipe';
 import debugRender from 'react-render-debugger';
 
+const { fromJS, Map } = require('immutable');
+
 class App extends Component {
   initialState = {
     destination: '', // where I'll shop
-    timestamp: '', // retrieved from http; don't know how I'll use yet
     recipes: {
       Tuesday: {
         name: 'Tacos',
@@ -24,7 +25,10 @@ class App extends Component {
 
   constructor() {
     super();
-    this.state = this.initialState;
+    this.state = {
+      destination: this.initialState.destination,
+      recipes: fromJS(this.initialState.recipes)
+    };
     this.doubleThisRecipeForThursday = this.doubleThisRecipeForThursday.bind(
       this
     );
@@ -35,40 +39,48 @@ class App extends Component {
     this.getShoppingList();
   }
 
+  shouldComponentUpdate(_, nextState) {
+    if (nextState) {
+      return !nextState.recipes.equals(this.state.recipes);
+    }
+    return true;
+  }
+
   getShoppingList() {
     http.getShoppingList().then(result => {
-      this.setState(result);
+      this.setState(prevState => ({
+        destination: result.destination,
+        recipes: fromJS(result.recipes)
+      }));
     });
   }
 
   // Returns new ingredients array with doubled amounts
   doubleTheIngredients(ingredients) {
-    const newIngredients = [];
-    ingredients.forEach(ingredient => {
-      ingredient.number *= 2;
-      newIngredients.push(ingredient);
-    });
+    const newIngredients = ingredients.map(ingredient =>
+      ingredient.merge({ number: ingredient.get('number') * 2 })
+    );
     return newIngredients;
   }
 
   doubleThisRecipeForThursday(day) {
     this.setState(prevState => {
+      const thursdayRecipe = Map({
+        name: 'Double ' + prevState.recipes.getIn([day, 'name']),
+        ingredients: this.doubleTheIngredients(
+          prevState.recipes.getIn([day, 'ingredients'])
+        )
+      });
       return {
-        recipes: {
-          ...prevState.recipes,
-          Thursday: {
-            name: 'Double ' + prevState.recipes[day].name,
-            ingredients: this.doubleTheIngredients(
-              prevState.recipes[day].ingredients
-            )
-          }
-        }
+        recipes: prevState.recipes.merge({ Thursday: thursdayRecipe })
       };
     });
   }
 
   render() {
     const { destination, recipes } = this.state;
+    console.log(this.state);
+    const recipesInJS = recipes.toJS();
     return (
       <Fragment>
         <header>
@@ -81,11 +93,11 @@ class App extends Component {
           Reload the week's recipes
         </button>
         <main>
-          {Object.keys(recipes).map(day => (
+          {Object.keys(recipesInJS).map(day => (
             <Recipe
               day={day}
               key={day}
-              recipe={recipes[day]}
+              recipe={recipesInJS[day]}
               double={this.doubleThisRecipeForThursday}
             />
           ))}

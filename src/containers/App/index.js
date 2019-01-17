@@ -4,6 +4,8 @@ import styles from './App.module.css';
 import Recipe from '../../components/Recipe';
 import debugRender from 'react-render-debugger';
 
+import { produce } from 'immer';
+
 class App extends Component {
   initialState = {
     destination: '', // where I'll shop
@@ -42,28 +44,21 @@ class App extends Component {
 
   // Returns new ingredients array with doubled amounts
   doubleTheIngredients(ingredients) {
-    const newIngredients = [];
-    ingredients.forEach(ingredient => {
-      ingredient.number *= 2;
-      newIngredients.push(ingredient);
-    });
-    return newIngredients;
+    return ingredients.map(ingredient => ({
+      ...ingredient,
+      number: ingredient.number * 2
+    }));
   }
 
   doubleThisRecipeForThursday(day) {
-    this.setState(prevState => {
-      return {
-        recipes: {
-          ...prevState.recipes,
-          Thursday: {
-            name: 'Double ' + prevState.recipes[day].name,
-            ingredients: this.doubleTheIngredients(
-              prevState.recipes[day].ingredients
-            )
-          }
-        }
-      };
-    });
+    this.setState(
+      produce(draft => {
+        draft.recipes.Thursday = {
+          name: 'Double ' + draft.recipes[day].name,
+          ingredients: this.doubleTheIngredients(draft.recipes[day].ingredients)
+        };
+      })
+    );
   }
 
   render() {

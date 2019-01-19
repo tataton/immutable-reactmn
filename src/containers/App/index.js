@@ -43,6 +43,7 @@ class App extends Component {
 
   shouldComponentUpdate(_, nextState) {
     if (nextState) {
+      // Check for content equality using Immutable.Map.equals()
       return !nextState.recipes.equals(this.state.recipes);
     }
     return true;
@@ -50,14 +51,18 @@ class App extends Component {
 
   getShoppingList = () => {
     http.getShoppingList().then(result => {
-      this.setState(prevState => ({
+      this.setState({
         destination: result.destination,
         recipes: fromJS(result.recipes)
-      }));
+      });
     });
   };
 
-  // Returns new ingredients array with doubled amounts
+  // Some Immutable methods are analogous to JS, and some ae not.
+  // For example, .get() needs to be used to read values in an Immutable,
+  // and .merge() can be used in place of nested JS Object spreads or
+  // Object.assign() to incorporate changes. But other methods, like
+  // Immutable.List.map, provide Immutable analogues to built-in JS methods.
   doubleTheIngredients = ingredients => {
     const newIngredients = ingredients.map(ingredient =>
       ingredient.merge({ number: ingredient.get('number') * 2 })
@@ -65,6 +70,8 @@ class App extends Component {
     return newIngredients;
   };
 
+  // Immutable.Map.getIn() allows us to pluck a value that is deeply nested
+  // inside an Immutable.
   doubleThisRecipeForThursday = day => {
     this.setState(prevState => {
       const thursdayRecipe = Map({
@@ -81,7 +88,14 @@ class App extends Component {
 
   render() {
     const { destination, recipes } = this.state;
-    console.log(this.state);
+    // Console.logging an Immutable makes a mess in the console. Fortunately,
+    // there is an Immutable object formatter Chrome extension available:
+    // https://tinyurl.com/immutable-chrome-ext
+    console.log(recipes);
+    // One downside to Immutable.JS data structures is that they don't play well
+    // with JSX and the DOM. Front-end code is really designed to work with
+    // native objects and arrays. So you'll need to convert Immtables back to
+    // JS in order to do anything useful.
     const recipesInJS = recipes.toJS();
     return (
       <Fragment>

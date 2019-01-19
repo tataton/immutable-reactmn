@@ -24,33 +24,29 @@ class App extends Component {
   constructor() {
     super();
     this.state = this.initialState;
-    this.doubleThisRecipeForThursday = this.doubleThisRecipeForThursday.bind(
-      this
-    );
-    this.getShoppingList = this.getShoppingList.bind(this);
   }
 
   componentDidMount() {
     this.getShoppingList();
   }
 
-  getShoppingList() {
+  getShoppingList = () => {
     http.getShoppingList().then(result => {
       this.setState(result);
     });
-  }
+  };
 
   // Returns new ingredients array with doubled amounts
-  doubleTheIngredients(ingredients) {
+  doubleTheIngredients = ingredients => {
     const newIngredients = [];
     ingredients.forEach(ingredient => {
       ingredient.number *= 2;
       newIngredients.push(ingredient);
     });
     return newIngredients;
-  }
+  };
 
-  doubleThisRecipeForThursday(day) {
+  doubleThisRecipeForThursday = day => {
     this.setState(prevState => {
       return {
         recipes: {
@@ -64,7 +60,7 @@ class App extends Component {
         }
       };
     });
-  }
+  };
 
   render() {
     const { destination, recipes } = this.state;

@@ -29,10 +29,6 @@ class App extends Component {
       destination: this.initialState.destination,
       recipes: fromJS(this.initialState.recipes)
     };
-    this.doubleThisRecipeForThursday = this.doubleThisRecipeForThursday.bind(
-      this
-    );
-    this.getShoppingList = this.getShoppingList.bind(this);
   }
 
   componentDidMount() {
@@ -46,24 +42,24 @@ class App extends Component {
     return true;
   }
 
-  getShoppingList() {
+  getShoppingList = () => {
     http.getShoppingList().then(result => {
       this.setState(prevState => ({
         destination: result.destination,
         recipes: fromJS(result.recipes)
       }));
     });
-  }
+  };
 
   // Returns new ingredients array with doubled amounts
-  doubleTheIngredients(ingredients) {
+  doubleTheIngredients = ingredients => {
     const newIngredients = ingredients.map(ingredient =>
       ingredient.merge({ number: ingredient.get('number') * 2 })
     );
     return newIngredients;
-  }
+  };
 
-  doubleThisRecipeForThursday(day) {
+  doubleThisRecipeForThursday = day => {
     this.setState(prevState => {
       const thursdayRecipe = Map({
         name: 'Double ' + prevState.recipes.getIn([day, 'name']),
@@ -75,7 +71,7 @@ class App extends Component {
         recipes: prevState.recipes.merge({ Thursday: thursdayRecipe })
       };
     });
-  }
+  };
 
   render() {
     const { destination, recipes } = this.state;

@@ -1,3 +1,5 @@
+// Built with Immutable.JS for managing React state.
+
 import React, { Component, Fragment } from 'react';
 import * as http from '../../remote/http';
 import styles from './App.module.css';
@@ -25,6 +27,10 @@ class App extends Component {
 
   constructor() {
     super();
+    // Unfortunately, React requires that this.state be a JS object, so we can't
+    // Just set this.state = fromJS(this.initialState). That's probably okay here--
+    // we don't really need Immutable.JS to help us with the destination string.
+    // We'll just make recipes immutable.
     this.state = {
       destination: this.initialState.destination,
       recipes: fromJS(this.initialState.recipes)

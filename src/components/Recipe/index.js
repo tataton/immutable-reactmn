@@ -29,15 +29,17 @@ class Recipe extends Component {
           ))}
         </div>
         <div className={styles.footer}>
-          <button
-            onClick={() => {
-              double(day);
-            }}
-          >
-            Double this recipe for
-            <br />
-            the in-laws on Thursday
-          </button>
+          {day !== 'Thursday' && (
+            <button
+              onClick={() => {
+                double(day);
+              }}
+            >
+              Double this recipe for
+              <br />
+              the in-laws on Thursday
+            </button>
+          )}
         </div>
       </div>
     );

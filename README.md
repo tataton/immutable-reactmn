@@ -10,6 +10,6 @@ The branches I worked through in my presentation:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This demonstration works through using immutability libraries with React state--and that's something you might not ever do in real life. I write this because, if your application is simple enough that you haven't incorporated state management or memoization/selection libraries, it's also probably simple enough that you don't really need immutability. In addition, one of the libraries I work through, Immutable.JS, comes with companion packages that makes it easier to integrate with Redux and selectors, so that it might even be _easier_ to use with complex projects than with just plain React.
+This demonstration applies immutability libraries to a small project's React state--and that's something you might not ever do in real life. I write this because, if your application is simple enough that you haven't incorporated state management (e.g., Redux) or memoization/selection libraries, it's also probably simple enough that you don't really need immutability. In addition, one of the libraries I work through, Immutable.JS, comes with companion packages that makes it easier to integrate with Redux and selectors, so that it might even be _easier_ to use with complex projects than with just plain React.
 
 So please don't use this demo as a template/starter for your own work. It's for illustration purposes only.

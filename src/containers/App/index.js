@@ -36,7 +36,11 @@ class App extends Component {
     });
   };
 
-  // Returns new ingredients array with doubled amounts
+  // Returns new ingredients array with doubled amounts...but also
+  // mutates state. (Bad!) And no React console warning is thrown,
+  // because the mutation is in a referenced object, not on state itself.
+  // Let's imagine we weren't responsible for this method, that someone
+  // else wrote it. How would we ever catch their bug?
   doubleTheIngredients = ingredients => {
     const newIngredients = [];
     ingredients.forEach(ingredient => {
